@@ -1,0 +1,157 @@
+import json
+
+def load_data(filename, default=None):
+    try:
+        with open(filename, 'r') as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return default if default is not None else {}
+
+def save_data(filename, data):
+    with open(filename, 'w') as f:
+        json.dump(data, f, indent=2)
+
+def load_locations():
+    # Return a default structure if file not found
+    default = {
+        "Thiruvananthapuram": {
+            "taluks": ["Thiruvananthapuram", "Nedumangad", "Kattakada", "Neyyattinkara", "Chirayinkeezhu"],
+            "villages": {
+                "Thiruvananthapuram": ["Poojappura", "Kowdiar", "Peroorkada", "Karamana", "Pettah"],
+                "Nedumangad": ["Anad", "Aruvikkara", "Kulathummal", "Vellanad", "Vembayam"],
+                "Kattakada": ["Vellarada", "Pallichal", "Kottukal", "Kallara", "Manickal"],
+                "Neyyattinkara": ["Parassala", "Perumkadavila", "Marthandam", "Karumkulam", "Amaravila"],
+                "Chirayinkeezhu": ["Kadakkavur", "Varkala", "Edava", "Azhiyoor", "Cherunniyoor"]
+            }
+        },
+        "Kollam": {
+            "taluks": ["Kollam", "Kottarakkara", "Karunagappally", "Kunnathur", "Pathanapuram"],
+            "villages": {
+                "Kollam": ["Eravipuram", "Thrikkadavoor", "Mayyanad", "Thrikkaruva", "Perinad"],
+                "Kottarakkara": ["Kottarakkara", "Valakom", "Elampalloor", "Neduvathoor", "Veliyam"],
+                "Karunagappally": ["Oachira", "Clappana", "Thevalakkara", "Alappad", "Krishnapuram"],
+                "Kunnathur": ["Kottiyam", "Chavara", "Thekkumbhagom", "Neendakara", "Panmana"],
+                "Pathanapuram": ["Punalur", "Thenmala", "Aryankavu", "Kulathupuzha", "Anchal"]
+            }
+        },
+        "Pathanamthitta": {
+            "taluks": ["Pathanamthitta", "Adoor", "Ranni", "Thiruvalla", "Mallappally"],
+            "villages": {
+                "Pathanamthitta": ["Kozhencherry", "Aranmula", "Elanthoor", "Kadapra", "Pandalam"],
+                "Adoor": ["Adoor", "Enathu", "Ezhamkulam", "Kadampanad", "Kodukulanji"],
+                "Ranni": ["Ranni", "Chittar", "Seethathode", "Goodrical", "Naranamoozhy"],
+                "Thiruvalla": ["Thiruvalla", "Kaviyoor", "Kuttoor", "Mallappally", "Peringara"],
+                "Mallappally": ["Mallappally", "Kottangal", "Pulikeezhu", "Vallikodu", "Ezhumattoor"]
+            }
+        },
+        "Alappuzha": {
+            "taluks": ["Alappuzha", "Cherthala", "Kuttanad", "Karthikappally", "Mavelikkara"],
+            "villages": {
+                "Alappuzha": ["Punnapra", "Ambalappuzha", "Purakkad", "Pathirappally", "Thanneermukkom"],
+                "Cherthala": ["Cherthala", "Arookutty", "Kannamangalam", "Pallipuram", "Thuravoor"],
+                "Kuttanad": ["Kainakary", "Ramankary", "Pulinkunnu", "Neelamperoor", "Veliyanad"],
+                "Karthikappally": ["Haripad", "Thrikkunnapuzha", "Pallippad", "Alappuzha", "Cheriyanad"],
+                "Mavelikkara": ["Mavelikkara", "Chennithala", "Chunakkara", "Pallarimangalam", "Bharanikkavu"]
+            }
+        },
+        "Kottayam": {
+            "taluks": ["Kottayam", "Changanassery", "Meenachil", "Vaikom", "Kanjirapally"],
+            "villages": {
+                "Kottayam": ["Kumarakom", "Aymanam", "Athirampuzha", "Nattakom", "Puthuppally"],
+                "Changanassery": ["Changanassery", "Thrikkodithanam", "Kurichy", "Nedumkunnam", "Vazhappally"],
+                "Meenachil": ["Pala", "Bharananganam", "Ramapuram", "Kaduthuruthy", "Vakathanam"],
+                "Vaikom": ["Vaikom", "Kaduthuruthy", "Udayanapuram", "Kumarakom", "Thalayazham"],
+                "Kanjirapally": ["Kanjirapally", "Erumeli", "Manimala", "Poovarany", "Kooroppada"]
+            }
+        },
+        "Idukki": {
+            "taluks": ["Idukki", "Thodupuzha", "Devikulam", "Udumbanchola", "Peerumade"],
+            "villages": {
+                "Idukki": ["Painavu", "Cheruthoni", "Idukki", "Kulamavu", "Vazhathope"],
+                "Thodupuzha": ["Thodupuzha", "Karikode", "Karimannoor", "Vannappuram", "Udumbannoor"],
+                "Devikulam": ["Munnar", "Pallivasal", "Adimali", "Marayoor", "Kanthalloor"],
+                "Udumbanchola": ["Nedumkandam", "Vandiperiyar", "Chakkupallam", "Rajakkad", "Senapathy"],
+                "Peerumade": ["Peerumade", "Kumily", "Vandiperiyar", "Chathurangapara", "Elappara"]
+            }
+        },
+        "Ernakulam": {
+            "taluks": ["Ernakulam", "Aluva", "Kothamangalam", "Muvattupuzha", "Kunnathunad"],
+            "villages": {
+                "Ernakulam": ["Fort Kochi", "Mattancherry", "Vypeen", "Edappally", "Kalamassery"],
+                "Aluva": ["Aluva", "Perumbavoor", "Kalamassery", "Kakkanad", "Choornikkara"],
+                "Kothamangalam": ["Kothamangalam", "Pindimana", "Kottappady", "Pothanikkad", "Varappetty"],
+                "Muvattupuzha": ["Muvattupuzha", "Arakuzha", "Kothamangalam", "Piravom", "Ramamangalam"],
+                "Kunnathunad": ["Kunnathunad", "Keezhmad", "Angamaly", "Kalady", "Manjapra"]
+            }
+        },
+        "Thrissur": {
+            "taluks": ["Thrissur", "Chalakudy", "Kodungallur", "Mukundapuram", "Thalapilly"],
+            "villages": {
+                "Thrissur": ["Punkunnam", "Vilvattom", "Ayyanthole", "Koorkkenchery", "Kuriachira"],
+                "Chalakudy": ["Chalakudy", "Irinjalakuda", "Koratty", "Parakkadavu", "Annamanada"],
+                "Kodungallur": ["Kodungallur", "Sreenarayanapuram", "Perinjanam", "Eriyad", "Chowwara"],
+                "Mukundapuram": ["Irinjalakuda", "Puthukkad", "Vallachira", "Palakkad", "Mala"],
+                "Thalapilly": ["Wadakkanchery", "Puthur", "Kandanassery", "Chelakkara", "Desamangalam"]
+            }
+        },
+        "Palakkad": {
+            "taluks": ["Palakkad", "Alathur", "Chittur", "Mannarkkad", "Ottapalam"],
+            "villages": {
+                "Palakkad": ["Palakkad", "Hemambikanagar", "Kodumba", "Puthuppariyaram", "Pirayiri"],
+                "Alathur": ["Alathur", "Kadambur", "Eruthempathy", "Kannambra", "Kizhakkanchery"],
+                "Chittur": ["Chittur", "Kollengode", "Koduvayur", "Nellaya", "Vadakkanchery"],
+                "Mannarkkad": ["Mannarkkad", "Karimba", "Tattamangalam", "Pothundy", "Akathethara"],
+                "Ottapalam": ["Ottapalam", "Pattambi", "Shoranur", "Lakkidi", "Thirumittacode"]
+            }
+        },
+        "Malappuram": {
+            "taluks": ["Malappuram", "Eranad", "Nilambur", "Perinthalmanna", "Ponnani"],
+            "villages": {
+                "Malappuram": ["Malappuram", "Pandikkad", "Vengara", "Oorakam", "Pulikkal"],
+                "Eranad": ["Manjeri", "Kondotty", "Kottakkal", "Vazhakkad", "Tanalur"],
+                "Nilambur": ["Nilambur", "Edakkara", "Vaniyambalam", "Karulai", "Chungathara"],
+                "Perinthalmanna": ["Perinthalmanna", "Melattur", "Angadippuram", "Vallikkunnu", "Pulamanthole"],
+                "Ponnani": ["Ponnani", "Thavanur", "Tirur", "Vettom", "Perumbadappu"]
+            }
+        },
+        "Kozhikode": {
+            "taluks": ["Kozhikode", "Thamarassery", "Koyilandy", "Vatakara", "Kunnamangalam"],
+            "villages": {
+                "Kozhikode": ["Beypore", "Feroke", "Elathur", "Ramanattukara", "Kakkur"],
+                "Thamarassery": ["Thamarassery", "Kodenchery", "Thuneri", "Pulpally", "Arikkulam"],
+                "Koyilandy": ["Koyilandy", "Vadakara", "Payyoli", "Perambra", "Chelannur"],
+                "Vatakara": ["Vatakara", "Nadapuram", "Kuttiady", "Moodadi", "Thikkody"],
+                "Kunnamangalam": ["Kunnamangalam", "Peruvayal", "Balussery", "Vilangad", "Koorachundu"]
+            }
+        },
+        "Wayanad": {
+            "taluks": ["Wayanad", "Mananthavady", "Sulthanbathery", "Vythiri"],
+            "villages": {
+                "Wayanad": ["Kalpetta", "Meppadi", "Vellamunda", "Thariode", "Poothadi"],
+                "Mananthavady": ["Mananthavady", "Panamaram", "Thondernad", "Pulpally", "Kurichiat"],
+                "Sulthanbathery": ["Sulthanbathery", "Ambalavayal", "Cheeral", "Pulpalli", "Noolpuzha"],
+                "Vythiri": ["Vythiri", "Meppadi", "Chundale", "Kainatty", "Thariode"]
+            }
+        },
+        "Kannur": {
+            "taluks": ["Kannur", "Thalassery", "Thaliparamba", "Iritty", "Payyannur"],
+            "villages": {
+                "Kannur": ["Kannur", "Edakkad", "Pappinisseri", "Chirakkal", "Muzhappilangad"],
+                "Thalassery": ["Thalassery", "New Mahe", "Pinarayi", "Eranholi", "Kodiyeri"],
+                "Thaliparamba": ["Thaliparamba", "Sreekandapuram", "Pariyaram", "Mayyil", "Kurumathur"],
+                "Iritty": ["Iritty", "Payyavoor", "Kelakam", "Ayyankunnu", "Keezhallur"],
+                "Payyannur": ["Payyannur", "Ramanthali", "Peralam", "Ezhome", "Peringathur"]
+            }
+        },
+        "Kasaragod": {
+            "taluks": ["Kasaragod", "Hosdurg", "Vellarikundu", "Manjeswaram"],
+            "villages": {
+                "Kasaragod": ["Kasaragod", "Chemnad", "Mogral", "Bedadka", "Kumbala"],
+                "Hosdurg": ["Kanhangad", "Nileshwar", "Cheruvathur", "Periya", "Bandadka"],
+                "Vellarikundu": ["Vellarikundu", "Padiyathaduka", "Kuttikole", "Pallikkara", "Kudlu"],
+                "Manjeswaram": ["Manjeswaram", "Uppala", "Enmakaje", "Delampady", "Paivalike"]
+            }
+        }
+    }
+    
+    return load_data('kerala_locations.json', default=default)
